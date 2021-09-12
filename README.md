@@ -1,0 +1,2 @@
+# JAMstack
+Get ready to build the most modern, comprehensive, feature-rich, full stack e-commerce platform in any online course! By the end of this course, you'll be completely confident in building large applications with complex functionality all on your own.  With over 75 hours of content across more than 475 lectures, this is a complete full stack masterclass! I'll be teaching you everything there is to know about building powerful full stack applications from scratch based on the next-generation JAMstack architecture.

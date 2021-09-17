@@ -17,6 +17,13 @@ const useStyles = makeStyles(theme => ({
   coloredIndicator: {
     backgroundColor: "red",
   },
+  logoText: {
+    color: theme.palette.common.offBlack,
+  },
+  tabs: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 }))
 
 export default function Header() {
@@ -25,9 +32,14 @@ export default function Header() {
     <AppBar elevation={0} color="transparent">
       <Toolbar>
         <Button>
-          <Typography variant="h1">Var X</Typography>
+          <Typography variant="h1">
+            <span className={classes.logoText}>VAR</span> X
+          </Typography>
         </Button>
-        <Tabs value={0} classes={{ indicator: classes.coloredIndicator }}>
+        <Tabs
+          value={0}
+          classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
+        >
           <Tab label="Hats" />
           <Tab label="Hoodies" />
           <Tab label="Shirts" />

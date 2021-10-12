@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   AppBar,
   Toolbar,
@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "auto",
     marginRight: "auto",
   },
+  icon: {
+    height: "3rem",
+    width: "3rem",
+  },
 }))
 
 //Las categories vienen del layout y se agrega al final el Contact us con el spread operator
@@ -44,6 +48,8 @@ export default function Header({ categories }) {
   const classes = useStyles()
   //Para saber si es un dispositivo movil md
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const iOS =
     typeof navigator !== "undefined" &&
@@ -62,11 +68,19 @@ export default function Header({ categories }) {
   )
 
   const drawer = (
-    <SwipeableDrawer disableBackdropTransition={!iOS} disableDiscovery={iOS}>
+    <SwipeableDrawer
+      open={drawerOpen}
+      onOpen={() => setDrawerOpen(true)}
+      onClose={() => setDrawerOpen(false)}
+      disableBackdropTransition={!iOS}
+      disableDiscovery={iOS}
+    >
       <List disablePadding>
-        <ListItem>
-          <ListItemText primary="Home" />
-        </ListItem>
+        {routes.map(route => (
+          <ListItem divider button key={route.node.strapiId}>
+            <ListItemText primary={route.node.name} />
+          </ListItem>
+        ))}
       </List>
     </SwipeableDrawer>
   )
@@ -80,19 +94,21 @@ export default function Header({ categories }) {
           </Typography>
         </Button>
         {/* Se renderizan las tabs si la pantalla es superior a MD */}
-        {matchesMD ? null : tabs}
+        {matchesMD ? drawer : tabs}
         <IconButton>
-          <img src={search} alt="search" />
+          <img className={classes.icon} src={search} alt="search" />
         </IconButton>
         <IconButton>
-          <img src={cart} alt="cart" />
+          <img className={classes.icon} src={cart} alt="cart" />
         </IconButton>
         {/* Componente Hidden para que se muestre solo en pantallas grandes */}
-        <Hidden mdDown>
-          <IconButton>
-            <img src={account} alt="account" />
-          </IconButton>
-        </Hidden>
+        <IconButton onClick={() => (matchesMD ? setDrawerOpen(true) : null)}>
+          <img
+            className={classes.icon}
+            src={matchesMD ? menu : account}
+            alt={matchesMD ? "menu" : "account"}
+          />
+        </IconButton>
       </Toolbar>
     </AppBar>
   )

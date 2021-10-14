@@ -8,7 +8,6 @@ import {
   Tab,
   IconButton,
   useMediaQuery,
-  Hidden,
   makeStyles,
   SwipeableDrawer,
   List,
@@ -18,6 +17,7 @@ import {
 import search from "../../images/search.svg"
 import cart from "../../images/cart.svg"
 import account from "../../images/account-header.svg"
+import menu from "../../images/menu.svg"
 
 //Estilos personalizados
 const useStyles = makeStyles(theme => ({

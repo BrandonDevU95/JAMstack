@@ -14,6 +14,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core"
+import { Link, navigate } from "gatsby"
 import search from "../../images/search.svg"
 import cart from "../../images/cart.svg"
 import account from "../../images/account-header.svg"
@@ -85,6 +86,18 @@ export default function Header({ categories }) {
     </SwipeableDrawer>
   )
 
+  const actions = [
+    { icon: search, alt: "search", visible: true },
+    { icon: cart, alt: "cart", visible: true },
+    { icon: account, alt: "account", visible: !matchesMD },
+    {
+      icon: menu,
+      alt: "menu",
+      visible: matchesMD,
+      onClick: () => setDrawerOpen(true),
+    },
+  ]
+
   return (
     <AppBar elevation={0} color="transparent">
       <Toolbar>
@@ -95,20 +108,16 @@ export default function Header({ categories }) {
         </Button>
         {/* Se renderizan las tabs si la pantalla es superior a MD */}
         {matchesMD ? drawer : tabs}
-        <IconButton>
-          <img className={classes.icon} src={search} alt="search" />
-        </IconButton>
-        <IconButton>
-          <img className={classes.icon} src={cart} alt="cart" />
-        </IconButton>
-        {/* Componente Hidden para que se muestre solo en pantallas grandes */}
-        <IconButton onClick={() => (matchesMD ? setDrawerOpen(true) : null)}>
-          <img
-            className={classes.icon}
-            src={matchesMD ? menu : account}
-            alt={matchesMD ? "menu" : "account"}
-          />
-        </IconButton>
+        {actions.map(action => (
+          <IconButton>
+            <img
+              className={classes.icon}
+              src={action.icon}
+              alt={action.alt}
+              onClick={action.onClick}
+            />
+          </IconButton>
+        ))}
       </Toolbar>
     </AppBar>
   )

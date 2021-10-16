@@ -56,72 +56,53 @@ export default function Footer() {
     },
   ]
 
+  const routes = {
+    "Contact Us": [
+      { label: "(555) 555-5555", href: "tel:(555) 555-5555" },
+      { label: "contact@var-x.com", href: "mailto:contact@var-x.com" },
+    ],
+    "Customer Service": [
+      { label: "Contact Us", link: "/contact" },
+      { label: "My Account", link: "/account" },
+    ],
+    Information: [
+      { label: "Privacy Policy", link: "/privacy-policy" },
+      { label: "Terms & Conditions", link: "/terms-conditions" },
+    ],
+  }
+
   return (
     <footer className={classes.footer}>
       <Grid container justifyContent="space-between">
         {/* Links */}
         <Grid item classes={{ root: classes.linkContainer }}>
           <Grid container>
-            <Grid
-              item
-              container
-              direction="column"
-              classes={{ root: classes.linkColumn }}
-            >
-              <Grid item>
-                <Typography variant="h5">Contact Us</Typography>
+            {Object.keys(routes).map(category => (
+              <Grid
+                item
+                key={category}
+                container
+                direction="column"
+                classes={{ root: classes.linkColumn }}
+              >
+                <Grid item>
+                  <Typography variant="h5">{category}</Typography>
+                </Grid>
+                {routes[category].map(route => (
+                  <Grid item key={route.label}>
+                    <Typography
+                      component={route.link ? Link : "a"}
+                      to={route.link ? route.link : undefined}
+                      href={route.href ? route.href : undefined}
+                      variant="body1"
+                      classes={{ body1: classes.link }}
+                    >
+                      {route.label}
+                    </Typography>
+                  </Grid>
+                ))}
               </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  (555) 555-5555
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  contact@var-x.com
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              classes={{ root: classes.linkColumn }}
-            >
-              <Grid item>
-                <Typography variant="h5">Customer Service</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  Contact Us
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  My Account
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              item
-              container
-              direction="column"
-              classes={{ root: classes.linkColumn }}
-            >
-              <Grid item>
-                <Typography variant="h5">Information</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  Privacy Policy
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="body1" classes={{ body1: classes.link }}>
-                  Terms & Conditions
-                </Typography>
-              </Grid>
-            </Grid>
+            ))}
           </Grid>
         </Grid>
         {/* Social media icons */}
@@ -129,10 +110,10 @@ export default function Footer() {
           <Grid container direction="column" alignItems="center">
             <Grid item>
               {socialMedia.map(platform => (
-                <Grid item>
+                <Grid item key={platform.alt}>
                   <IconButton
                     classes={{ root: classes.icon }}
-                    dissableRipple
+                    disableRipple
                     component="a"
                     href={platform.link}
                   >

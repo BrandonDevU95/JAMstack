@@ -14,7 +14,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core"
-import { Link, navigate } from "gatsby"
+import { Link } from "gatsby"
 import search from "../../images/search.svg"
 import cart from "../../images/cart.svg"
 import account from "../../images/account-header.svg"
@@ -177,6 +177,8 @@ export default function Header({ categories }) {
                 />
               </IconButton>
             )
+          } else {
+            return null
           }
         })}
       </Toolbar>

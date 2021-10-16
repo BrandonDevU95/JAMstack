@@ -100,7 +100,13 @@ export default function Header({ categories }) {
     >
       <List disablePadding>
         {routes.map(route => (
-          <ListItem divider button key={route.node.strapiId}>
+          <ListItem
+            component={Link}
+            to={route.node.link || `/${route.node.name.toLowerCase()}`}
+            divider
+            button
+            key={route.node.strapiId}
+          >
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary={route.node.name}
@@ -112,7 +118,12 @@ export default function Header({ categories }) {
   )
 
   const actions = [
-    { icon: search, alt: "search", visible: true },
+    {
+      icon: search,
+      alt: "search",
+      visible: true,
+      onClick: () => console.log("serch"),
+    },
     { icon: cart, alt: "cart", visible: true, link: "/cart" },
     { icon: account, alt: "account", visible: !matchesMD, link: "/account" },
     {
@@ -126,7 +137,11 @@ export default function Header({ categories }) {
   return (
     <AppBar elevation={0} color="transparent">
       <Toolbar>
-        <Button classes={{ root: classes.logoContainer }}>
+        <Button
+          component={Link}
+          to="/"
+          classes={{ root: classes.logoContainer }}
+        >
           <Typography variant="h1">
             <span className={classes.logoText}>VAR</span> X
           </Typography>
@@ -136,12 +151,16 @@ export default function Header({ categories }) {
         {actions.map(action => {
           if (action.visible) {
             return (
-              <IconButton key={action.alt} component={Link} to={action.link}>
+              <IconButton
+                onClick={action.onClick}
+                key={action.alt}
+                component={action.onClick ? undefined : Link}
+                to={action.onClick ? undefined : action.link}
+              >
                 <img
                   className={classes.icon}
                   src={action.icon}
                   alt={action.alt}
-                  onClick={action.onClick}
                 />
               </IconButton>
             )

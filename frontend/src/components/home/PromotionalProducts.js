@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme => ({
     height: "70rem",
     padding: "30rem 10rem 10rem 10rem",
   },
+  productName: {
+    color: "#fff",
+  },
 }))
 
 export default function PromotionalProducts() {
@@ -42,12 +45,35 @@ export default function PromotionalProducts() {
     }
   `)
 
-  console.log(data)
-  var slides = [
-    { key: 1, content: <div>Firts Slide</div> },
-    { key: 2, content: <div>Second Slide</div> },
-    { key: 3, content: <div>Third Slide</div> },
-  ]
+  var slides = []
+
+  data.allStrapiProduct.edges.map(({ node }, index) =>
+    slides.push({
+      key: index,
+      content: (
+        <Grid container direction="column">
+          <Grid item>
+            <IconButton disableRipple>
+              <img
+                src={
+                  process.env.GATSBY_STRAPI_URL + node.variants[0].images[0].url
+                }
+                alt={`image-${index}`}
+              />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            {selectedSlide === index ? (
+              <Typography variant="h1" classes={{ root: classes.productName }}>
+                {node.name}
+              </Typography>
+            ) : null}
+          </Grid>
+        </Grid>
+      ),
+      description: node.description,
+    })
+  )
 
   return (
     <Grid
@@ -59,7 +85,7 @@ export default function PromotionalProducts() {
       <Grid item>
         <Carousel slides={slides} goToSlide={selectedSlide} />
       </Grid>
-      <Grid item>Description</Grid>
+      <Grid item>{slides[selectedSlide].description}</Grid>
     </Grid>
   )
 }

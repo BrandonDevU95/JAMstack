@@ -40,8 +40,8 @@
       "required": true
     },
     "product": {
-      "model": "products",
-      "via": "variants"
+      "via": "variants",
+      "model": "products"
     }
   }
 }

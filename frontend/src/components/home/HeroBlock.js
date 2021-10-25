@@ -10,7 +10,7 @@ export default function HeroBlock() {
     animationData,
   }
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
+    <Grid container justifyContent="space-around" alignItems="center">
       <Grid item>
         <Grid container direction="column">
           <Grid item>

@@ -7001,7 +7001,7 @@ gatsby-source-filesystem@^2.3.30:
     valid-url "^1.0.9"
     xstate "^4.14.0"
 
-gatsby-source-strapi@^1.0.1:
+gatsby-source-strapi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/gatsby-source-strapi/-/gatsby-source-strapi-1.0.2.tgz#708b8df4e237aab120f23335cb42803f84de0fe5"
   integrity sha512-/qi5giMtT79eaNGXwm8z6C9v88eCcSSHjoxHk9EBbATrtwR5tTZFkBAIoZyTZUWRiK98WpW2PR0j3ImDK6P5QA==
@@ -11952,7 +11952,7 @@ react-side-effect@^2.1.0:
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
   integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
-react-spring-3d-carousel@^1.2.0:
+react-spring-3d-carousel@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-spring-3d-carousel/-/react-spring-3d-carousel-1.2.1.tgz#25d5d94e76a212b6e791c2543f61c7c87763e8e9"
   integrity sha512-T3Z75ShB613b/y9+DEfWE7ny6w9NKRD5/3bZoU53lUfSc1/JhdfpZ2uDQ5UvdskISQqol1RfqFdoDWuDgMT1NA==

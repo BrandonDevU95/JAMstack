@@ -42,8 +42,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
   },
   icon: {
-    height: "3rem",
-    width: "3rem",
+    height: "2rem",
+    width: "2rem",
   },
   drawer: {
     backgroundColor: theme.palette.primary.main,

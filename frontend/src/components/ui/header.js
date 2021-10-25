@@ -148,7 +148,7 @@ export default function Header({ categories }) {
   ]
 
   return (
-    <AppBar elevation={0} color="transparent">
+    <AppBar elevation={0} color="transparent" position="static">
       <Toolbar>
         <Button
           component={Link}

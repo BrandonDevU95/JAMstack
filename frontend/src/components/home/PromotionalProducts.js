@@ -5,7 +5,7 @@ import Carousel from "react-spring-3d-carousel"
 import { useStaticQuery, graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import promoAdornment from "../../images/promo-adornment.svg"
-import { Grid, Typography, IconButton } from "@material-ui/core"
+import { Grid, Typography, IconButton, Button } from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -19,6 +19,32 @@ const useStyles = makeStyles(theme => ({
   },
   productName: {
     color: "#fff",
+  },
+  iconButton: {
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
+  carouselImage: {
+    height: "30rem",
+    width: "25rem",
+    backgroundColor: "#fff",
+    borderRadius: "20px",
+    boxShadow: theme.shadows[5],
+  },
+  carouselContainer: {
+    marginLeft: "20rem",
+  },
+  space: {
+    margin: "0rem 15rem",
+    marginBottom: "10rem",
+  },
+  explore: {
+    textTransform: "none",
+    marginRight: "2rem",
+  },
+  descriptionContainer: {
+    textAlign: "right",
   },
 }))
 
@@ -51,21 +77,30 @@ export default function PromotionalProducts() {
     slides.push({
       key: index,
       content: (
-        <Grid container direction="column">
+        <Grid container direction="column" alignItems="center">
           <Grid item>
-            <IconButton disableRipple>
+            <IconButton
+              disableRipple
+              onClick={() => setSelectedSlide(index)}
+              classes={{
+                root: clsx(classes.iconButton, {
+                  [classes.space]: selectedSlide !== index,
+                }),
+              }}
+            >
               <img
                 src={
                   process.env.GATSBY_STRAPI_URL + node.variants[0].images[0].url
                 }
                 alt={`image-${index}`}
+                className={classes.carouselImage}
               />
             </IconButton>
           </Grid>
           <Grid item>
             {selectedSlide === index ? (
               <Typography variant="h1" classes={{ root: classes.productName }}>
-                {node.name}
+                {node.name.split(" ")[0]}
               </Typography>
             ) : null}
           </Grid>
@@ -82,10 +117,20 @@ export default function PromotionalProducts() {
       alignItems="center"
       classes={{ root: classes.mainContainer }}
     >
-      <Grid item>
+      <Grid item classes={{ root: classes.carouselContainer }}>
         <Carousel slides={slides} goToSlide={selectedSlide} />
       </Grid>
-      <Grid item>{slides[selectedSlide].description}</Grid>
+      <Grid item classes={{ root: classes.descriptionContainer }}>
+        <Typography variant="h2" paragraph>
+          {slides[selectedSlide].description}
+        </Typography>
+        <Button>
+          <Typography variant="h4" classes={{ root: classes.explore }}>
+            Explore
+          </Typography>
+          <img src={explore} alt="go to product" />
+        </Button>
+      </Grid>
     </Grid>
   )
 }

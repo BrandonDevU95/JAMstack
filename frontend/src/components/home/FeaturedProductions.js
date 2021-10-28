@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import clxs from "clsx"
 import { makeStyles } from "@material-ui/core/styles"
 import { useStaticQuery, graphql } from "gatsby"
 import { Grid, Typography, IconButton } from "@material-ui/core"
@@ -30,11 +31,20 @@ const useStyles = makeStyles(theme => ({
     boxSizing: "border-box",
     boxShadow: theme.shadows[5],
     position: "absolute",
+    zIndex: 1,
   },
   slide: {
     backgroundColor: theme.palette.primary.main,
     height: "20rem",
     width: "24.5rem",
+    zIndex: 0,
+    transition: "transform 0.5s ease-in-out",
+  },
+  slideLeft: {
+    transform: "translate(-24.5rem, 0px)",
+  },
+  slideRight: {
+    transform: "translate(24.5rem, 0px)",
   },
   productContainer: {
     margin: "5rem 0",
@@ -42,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function FeaturedProductions() {
+  const [expanded, setExpanded] = useState(null)
   const classes = useStyles()
   const data = useStaticQuery(graphql`
     query GetFeatured {
@@ -86,7 +97,12 @@ export default function FeaturedProductions() {
             classes={{ root: classes.productContainer }}
             alignItems="center"
           >
-            <IconButton classes={{ root: classes.frame }}>
+            <IconButton
+              onClick={() =>
+                expanded === i ? setExpanded(null) : setExpanded(i)
+              }
+              classes={{ root: classes.frame }}
+            >
               <img
                 src={
                   process.env.GATSBY_STRAPI_URL + node.variants[0].images[0].url
@@ -98,7 +114,15 @@ export default function FeaturedProductions() {
             <Grid
               container
               direction="column"
-              classes={{ root: classes.slide }}
+              classes={{
+                root: clxs(classes.slide, {
+                  [classes.slideLeft]:
+                    expanded === i && aligment === "flex-end",
+                  [classes.slideRight]:
+                    expanded === i &&
+                    (aligment === "flex-start" || aligment === "center"),
+                }),
+              }}
             ></Grid>
           </Grid>
         )

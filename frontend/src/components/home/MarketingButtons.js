@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     "&:hover": {
       transform: "scale(1.1)",
     },
+    textDecoration: "none",
   },
   container: {
     margin: "15rem 0",

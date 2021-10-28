@@ -13,14 +13,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function Rating({ number }) {
   const classes = useStyles()
-  const diff = 56 - Math.ceil(number)
+  const diff = 5 - Math.ceil(number)
 
   return (
     <>
-      {Array(Math.floor(number)).map((e, i) => (
+      {[...Array(Math.floor(number))].map((e, i) => (
         <img src={fullStar} alt="full star" className={classes.size} key={i} />
       ))}
       {number % 1 !== 0 ? <img src={halfStar} alt="half start" /> : null}
+      {[...Array(diff)].map((e, i) => (
+        <img
+          src={emptyStar}
+          alt="empty star"
+          className={classes.size}
+          key={`${i}-empty`}
+        />
+      ))}
     </>
   )
 }

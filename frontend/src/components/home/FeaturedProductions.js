@@ -2,9 +2,11 @@ import React, { useState } from "react"
 import clxs from "clsx"
 import { makeStyles } from "@material-ui/core/styles"
 import { useStaticQuery, graphql } from "gatsby"
-import { Grid, Typography, IconButton } from "@material-ui/core"
+import { Grid, Typography, IconButton, Button, Chip } from "@material-ui/core"
+import explore from "../../images/explore.svg"
 import featuredAdornment from "../../images/featured-adornment.svg"
 import frame from "../../images/product-frame-grid.svg"
+import Rating from "./Rating"
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -49,6 +51,22 @@ const useStyles = makeStyles(theme => ({
   },
   productContainer: {
     margin: "5rem 0",
+  },
+  exploreContainer: {
+    marginTop: "auto",
+  },
+  exploreButton: {
+    textTransform: "none",
+  },
+  exploreIcon: {
+    height: "1.5rem",
+    marginLeft: "1rem",
+  },
+  chipLabel: {
+    ...theme.typography.h5,
+  },
+  chipRoot: {
+    backgroundColor: theme.palette.secondary.main,
   },
 }))
 
@@ -127,6 +145,25 @@ export default function FeaturedProductions() {
             >
               <Grid item>
                 <Typography variant="h4">{node.name.split(" ")[0]}</Typography>
+              </Grid>
+              <Grid item>
+                <Rating number={4.5} />
+              </Grid>
+              <Grid item>
+                <Chip
+                  classes={{ root: classes.chipRoot, label: classes.chipLabel }}
+                  label={`$${node.variants[0].price}`}
+                />
+              </Grid>
+              <Grid item classes={{ root: classes.exploreContainer }}>
+                <Button classes={{ root: classes.exploreButton }}>
+                  <Typography variant="h5">Details</Typography>
+                  <img
+                    className={classes.exploreIcon}
+                    src={explore}
+                    alt="go to details"
+                  />
+                </Button>
               </Grid>
             </Grid>
           </Grid>

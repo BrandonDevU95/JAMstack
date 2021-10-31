@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Layout from "../components/ui/layout"
 import address from "../images/address.svg"
 import phone from "../images/phone-adornment.svg"
-import email from "../images/email-adornment.svg"
+import Email from "../images/EmailAdornment"
 import send from "../images/send.svg"
 
 const useStyles = makeStyles(theme => ({
@@ -43,16 +43,25 @@ const useStyles = makeStyles(theme => ({
   },
   contactInfo: {
     fontSize: "1.5rem",
+    marginRight: "1rem",
   },
   contactIcon: {
     height: "3rem",
     width: "3rem",
-    margin: "1rem",
+    marginRight: "2rem",
   },
   contactEmailIcon: {
     height: "2.25rem",
-    width: "4rem",
-    margin: "1rem",
+    width: "3rem",
+    marginRight: "2rem",
+  },
+  infoContainer: {
+    height: "15rem",
+  },
+  middleInfo: {
+    borderTop: "2px solid #fff",
+    borderBottom: "2px solid #fff",
+    padding: "1rem 0",
   },
 }))
 
@@ -96,7 +105,12 @@ const ContactPage = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container direction="column">
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            classes={{ root: classes.infoContainer }}
+          >
             <Grid item container alignItems="center">
               <Grid item>
                 <img
@@ -114,7 +128,12 @@ const ContactPage = () => {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item container alignItems="center">
+            <Grid
+              item
+              container
+              alignItems="center"
+              classes={{ root: classes.middleInfo }}
+            >
               <Grid item>
                 <img src={phone} alt="phone" className={classes.contactIcon} />
               </Grid>
@@ -128,12 +147,8 @@ const ContactPage = () => {
               </Grid>
             </Grid>
             <Grid item container alignItems="center">
-              <Grid item>
-                <img
-                  src={email}
-                  alt="email"
-                  className={classes.contactEmailIcon}
-                />
+              <Grid item classes={{ root: classes.contactEmailIcon }}>
+                <Email color="#fff" />
               </Grid>
               <Grid item>
                 <Typography

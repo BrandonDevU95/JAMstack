@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Typography, Button } from "@material-ui/core"
+import { Grid, Typography, Button, useMediaQuery } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import { Link } from "gatsby"
 import cta from "../../images/cta.svg"
@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   },
   body: {
     maxWidth: "45rem",
+    [theme.breakpoints.down("md")]: {
+      padding: "0 1rem",
+    },
   },
   container: {
     marginBottom: "15rem",
@@ -18,15 +21,23 @@ const useStyles = makeStyles(theme => ({
   buttonContainer: {
     marginTop: "3rem",
   },
+  headingContainer: {
+    [theme.breakpoints.down("md")]: {
+      padding: "0 1rem",
+    },
+  },
 }))
 
 export default function CallToAction() {
   const classes = useStyles()
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
   return (
     <Grid
       container
       alignItems="center"
       justifyContent="space-around"
+      direction={matchesMD ? "column" : "row"}
       classes={{ root: classes.container }}
     >
       <Grid item>
@@ -34,17 +45,27 @@ export default function CallToAction() {
       </Grid>
       <Grid item>
         <Grid container direction="column">
-          <Grid item>
-            <Typography variant="h1">Committed To Quality</Typography>
+          <Grid item classes={{ root: classes.headingContainer }}>
+            <Typography align={matchesMD ? "center" : undefined} variant="h1">
+              Committed To Quality
+            </Typography>
           </Grid>
           <Grid item classes={{ root: classes.body }}>
-            <Typography variant="body1">
+            <Typography
+              align={matchesMD ? "center" : undefined}
+              variant="body1"
+            >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
               euismod, nisl eget consectetur tempor, nisi nunc interdum nisl,
               euismod consectetur nisi nunc euismod.
             </Typography>
           </Grid>
-          <Grid item container classes={{ root: classes.buttonContainer }}>
+          <Grid
+            item
+            container
+            justifyContent={matchesMD ? "center" : undefined}
+            classes={{ root: classes.buttonContainer }}
+          >
             <Grid item>
               <Button
                 component={Link}

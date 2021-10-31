@@ -12,16 +12,40 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    height: "40rem",
-    width: "40rem",
+    height: "50rem",
+    width: "50rem",
     transition: "transform 0.5s ease-in-out",
     "&:hover": {
       transform: "scale(1.1)",
+    },
+    [theme.breakpoints.down("lg")]: {
+      height: "40rem",
+      width: "40rem",
+      margin: "3rem",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "30rem",
+      width: "30rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "25rem",
+      width: "25rem",
     },
     textDecoration: "none",
   },
   container: {
     margin: "15rem 0",
+  },
+  icon: {
+    [theme.breakpoints.down("sm")]: {
+      height: "8rem",
+      width: "8rem",
+    },
+  },
+  label: {
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2.75rem",
+    },
   },
 }))
 
@@ -52,10 +76,16 @@ export default function MarketingButtons() {
             href={button.href ? button.href : undefined}
           >
             <Grid item>
-              <img src={button.icon} alt={button.label} />
+              <img
+                className={classes.icon}
+                src={button.icon}
+                alt={button.label}
+              />
             </Grid>
             <Grid item>
-              <Typography variant={"h1"}>{button.label}</Typography>
+              <Typography classes={{ root: classes.label }} variant={"h1"}>
+                {button.label}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>

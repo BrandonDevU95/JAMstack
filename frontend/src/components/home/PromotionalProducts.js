@@ -5,7 +5,13 @@ import Carousel from "react-spring-3d-carousel"
 import { useStaticQuery, graphql } from "gatsby"
 import { makeStyles } from "@material-ui/core/styles"
 import promoAdornment from "../../images/promo-adornment.svg"
-import { Grid, Typography, IconButton, Button } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  IconButton,
+  Button,
+  useMediaQuery,
+} from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -16,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "70rem",
     padding: "30rem 10rem 10rem 10rem",
+    [theme.breakpoints.down("lg")]: {
+      padding: "20rem 2rem 2rem 2rem",
+    },
   },
   productName: {
     color: "#fff",
@@ -31,13 +40,27 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#fff",
     borderRadius: "20px",
     boxShadow: theme.shadows[5],
+    [theme.breakpoints.down("sm")]: {
+      height: "25rem",
+      width: "20rem",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "20rem",
+      width: "15rem",
+    },
   },
   carouselContainer: {
     marginLeft: "20rem",
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "0rem",
+      height: "30rem",
+    },
   },
   space: {
-    margin: "0rem 15rem",
-    marginBottom: "10rem",
+    margin: "0 15rem 10rem 15rem",
+    [theme.breakpoints.down("sm")]: {
+      margin: "0 10rem 10rem 10rem",
+    },
   },
   explore: {
     textTransform: "none",
@@ -45,12 +68,16 @@ const useStyles = makeStyles(theme => ({
   },
   descriptionContainer: {
     textAlign: "right",
+    [theme.breakpoints.down("md")]: {
+      textAlign: "center",
+    },
   },
 }))
 
 export default function PromotionalProducts() {
-  const [selectedSlide, setSelectedSlide] = useState(0)
   const classes = useStyles()
+  const [selectedSlide, setSelectedSlide] = useState(0)
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const data = useStaticQuery(graphql`
     query GetPromo {
@@ -113,9 +140,10 @@ export default function PromotionalProducts() {
   return (
     <Grid
       container
-      justifyContent="space-between"
+      justifyContent={matchesMD ? "space-around" : "space-between"}
       alignItems="center"
       classes={{ root: classes.mainContainer }}
+      direction={matchesMD ? "column" : "row"}
     >
       <Grid item classes={{ root: classes.carouselContainer }}>
         <Carousel slides={slides} goToSlide={selectedSlide} />

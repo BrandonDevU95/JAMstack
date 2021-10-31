@@ -4,6 +4,7 @@ import HeroBlock from "../components/home/HeroBlock"
 import PromotionalProducts from "../components/home/PromotionalProducts"
 import FeaturedProductions from "../components/home/FeaturedProductions"
 import MarketingButtons from "../components/home/MarketingButtons"
+import CallToAction from "../components/home/CallToAction"
 
 const IndexPage = () => (
   <Layout>
@@ -11,6 +12,7 @@ const IndexPage = () => (
     <PromotionalProducts />
     <FeaturedProductions />
     <MarketingButtons />
+    <CallToAction />
   </Layout>
 )
 

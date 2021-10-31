@@ -2,7 +2,14 @@ import React, { useState } from "react"
 import clxs from "clsx"
 import { makeStyles } from "@material-ui/core/styles"
 import { useStaticQuery, graphql } from "gatsby"
-import { Grid, Typography, IconButton, Button, Chip } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  IconButton,
+  Button,
+  Chip,
+  useMediaQuery,
+} from "@material-ui/core"
 import explore from "../../images/explore.svg"
 import featuredAdornment from "../../images/featured-adornment.svg"
 import frame from "../../images/product-frame-grid.svg"
@@ -17,10 +24,17 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "180rem",
     padding: "0 2.5rem",
+    [theme.breakpoints.down("md")]: {
+      height: "220rem",
+    },
   },
   featured: {
     height: "20rem",
     width: "20rem",
+    [theme.breakpoints.down("md")]: {
+      height: "15rem",
+      width: "15rem",
+    },
   },
   frame: {
     backgroundImage: `url(${frame})`,
@@ -34,6 +48,10 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     position: "absolute",
     zIndex: 1,
+    [theme.breakpoints.down("md")]: {
+      height: "19.8rem",
+      width: "20rem",
+    },
   },
   slide: {
     backgroundColor: theme.palette.primary.main,
@@ -42,12 +60,19 @@ const useStyles = makeStyles(theme => ({
     zIndex: 0,
     transition: "transform 0.5s ease-in-out",
     padding: "1rem 2rem",
+    [theme.breakpoints.down("md")]: {
+      height: "15.2rem",
+      width: "19.5rem",
+    },
   },
   slideLeft: {
     transform: "translate(-24.5rem, 0px)",
   },
   slideRight: {
     transform: "translate(24.5rem, 0px)",
+  },
+  slideDown: {
+    transform: "translate(0, 17rem)",
   },
   productContainer: {
     margin: "5rem 0",
@@ -72,6 +97,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function FeaturedProductions() {
   const [expanded, setExpanded] = useState(null)
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
   const classes = useStyles()
   const data = useStaticQuery(graphql`
     query GetFeatured {
@@ -96,16 +122,17 @@ export default function FeaturedProductions() {
     <Grid
       container
       direction="column"
-      justifyContent="center"
+      justifyContent={matchesMD ? "space-between" : "center"}
       classes={{ root: classes.background }}
     >
       {data.allStrapiProduct.edges.map(({ node }, i) => {
-        const aligment =
-          i === 0 || i === 3
-            ? "flex-start"
-            : i === 1 || i === 4
-            ? "center"
-            : "flex-end"
+        const aligment = matchesMD
+          ? "center"
+          : i === 0 || i === 3
+          ? "flex-start"
+          : i === 1 || i === 4
+          ? "center"
+          : "flex-end"
 
         return (
           <Grid
@@ -136,10 +163,12 @@ export default function FeaturedProductions() {
               classes={{
                 root: clxs(classes.slide, {
                   [classes.slideLeft]:
-                    expanded === i && aligment === "flex-end",
+                    !matchesMD && expanded === i && aligment === "flex-end",
                   [classes.slideRight]:
+                    !matchesMD &&
                     expanded === i &&
                     (aligment === "flex-start" || aligment === "center"),
+                  [classes.slideDown]: matchesMD && expanded === i,
                 }),
               }}
             >

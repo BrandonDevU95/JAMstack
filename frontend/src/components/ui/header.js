@@ -25,6 +25,9 @@ const useStyles = makeStyles(theme => ({
   coloredIndicator: {
     backgroundColor: "red",
   },
+  logo: {
+    fontSize: "3rem",
+  },
   logoText: {
     color: theme.palette.common.offBlack,
   },
@@ -44,6 +47,10 @@ const useStyles = makeStyles(theme => ({
   icon: {
     height: "2rem",
     width: "2rem",
+    [theme.breakpoints.down("xs")]: {
+      height: "1.5rem",
+      width: "1.5rem",
+    },
   },
   drawer: {
     backgroundColor: theme.palette.primary.main,
@@ -149,13 +156,13 @@ export default function Header({ categories }) {
 
   return (
     <AppBar elevation={0} color="transparent" position="static">
-      <Toolbar>
+      <Toolbar disableGutters>
         <Button
           component={Link}
           to="/"
           classes={{ root: classes.logoContainer }}
         >
-          <Typography variant="h1">
+          <Typography variant="h1" classes={{ root: classes.logo }}>
             <span className={classes.logoText}>VAR</span> X
           </Typography>
         </Button>

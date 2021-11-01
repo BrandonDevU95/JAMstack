@@ -5,7 +5,7 @@ import { Typography, Grid, Button, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import Layout from "../components/ui/layout"
 import address from "../images/address.svg"
-import phone from "../images/phone-adornment.svg"
+import phoneImg from "../images/phone-adornment.svg"
 import Email from "../images/EmailAdornment"
 import send from "../images/send.svg"
 
@@ -73,6 +73,29 @@ const useStyles = makeStyles(theme => ({
   textField: {
     width: "30rem",
   },
+  input: {
+    color: "#fff",
+  },
+  fieldContainer: {
+    marginBottom: "1rem",
+  },
+  multilineContainer: {
+    marginTop: "1rem",
+  },
+  "@global": {
+    ".MuiInput-underline:before, .MuiInput-underline:hover:not(.Mui-disabled):before":
+      {
+        borderBottom: "2px solid #fff",
+      },
+    ".MuiInput-underline:after": {
+      borderBottom: `2px solid ${theme.palette.secondary.main}`,
+    },
+    ".MuiInput-multiline": {
+      border: "2px solid #fff",
+      borderRadius: 10,
+      padding: "1rem",
+    },
+  },
 }))
 
 const ContactPage = () => {
@@ -107,36 +130,43 @@ const ContactPage = () => {
             </Grid>
             <Grid item>
               <Grid container direction="column">
-                <Grid item>
+                <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
                     placeholder="Name"
                     value={name}
+                    InputProps={{ classes: { input: classes.input } }}
                     onChange={e => setName(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
-                <Grid item>
+                <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
                     placeholder="Emial"
                     value={email}
+                    InputProps={{ classes: { input: classes.input } }}
                     onChange={e => setEmail(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
-                <Grid item>
+                <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
                     placeholder="Phone"
                     value={phone}
+                    InputProps={{ classes: { input: classes.input } }}
                     onChange={e => setPhone(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
-                <Grid item>
+                <Grid item classes={{ root: classes.multilineContainer }}>
                   <TextField
                     placeholder="Message"
                     multiline
                     rows={8}
                     value={message}
+                    InputProps={{
+                      disableUnderline: true,
+                      classes: { input: classes.input },
+                    }}
                     onChange={e => setMessage(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
@@ -186,7 +216,11 @@ const ContactPage = () => {
               classes={{ root: classes.middleInfo }}
             >
               <Grid item classes={{ root: classes.iconContaner }}>
-                <img src={phone} alt="phone" className={classes.contactIcon} />
+                <img
+                  src={phoneImg}
+                  alt="phone"
+                  className={classes.contactIcon}
+                />
               </Grid>
               <Grid item>
                 <Typography

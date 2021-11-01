@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "gatsby"
 import clsx from "clsx"
-import { Typography, Grid, Button } from "@material-ui/core"
+import { Typography, Grid, Button, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import Layout from "../components/ui/layout"
 import address from "../images/address.svg"
@@ -70,10 +70,17 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  textField: {
+    width: "30rem",
+  },
 }))
 
 const ContactPage = () => {
   const classes = useStyles()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+  const [phone, setPhone] = useState("")
   return (
     <Layout>
       <Grid
@@ -97,6 +104,44 @@ const ContactPage = () => {
               }}
             >
               <Typography variant="h4">Contact Us</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container direction="column">
+                <Grid item>
+                  <TextField
+                    placeholder="Name"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    classes={{ root: classes.textField }}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    placeholder="Emial"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    classes={{ root: classes.textField }}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    placeholder="Phone"
+                    value={phone}
+                    onChange={e => setPhone(e.target.value)}
+                    classes={{ root: classes.textField }}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    placeholder="Message"
+                    multiline
+                    rows={8}
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    classes={{ root: classes.textField }}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               item

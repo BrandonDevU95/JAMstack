@@ -6,7 +6,9 @@ import {
   Button,
   TextField,
   InputAdornment,
+  useMediaQuery,
 } from "@material-ui/core"
+
 import validate from "../components/ui/validate"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import Layout from "../components/ui/layout"
@@ -21,12 +23,20 @@ const useStyles = makeStyles(theme => ({
     height: "45rem",
     backgroundColor: theme.palette.primary.main,
     marginBottom: "10rem",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "8rem",
+      height: "90rem",
+    },
   },
   formContainer: {
     height: "100%",
   },
   formWrapper: {
     height: "100%",
+    [theme.breakpoints.down("md")]: {
+      height: "50%",
+      marginTop: "-8rem",
+    },
   },
   blockContainer: {
     backgroundColor: theme.palette.secondary.main,
@@ -35,6 +45,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      width: "30rem",
+    },
   },
   titleContainer: {
     marginTop: "-4rem",
@@ -123,6 +136,7 @@ const useStyles = makeStyles(theme => ({
 const ContactPage = () => {
   const theme = useTheme()
   const classes = useStyles()
+  const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -137,6 +151,7 @@ const ContactPage = () => {
         justifyContent="space-around"
         alignItems="center"
         classes={{ root: classes.mainContainer }}
+        direction={matchesMd ? "column" : "row"}
       >
         <Grid item classes={{ root: classes.formWrapper }}>
           <Grid

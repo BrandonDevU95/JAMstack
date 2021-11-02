@@ -1,22 +1,22 @@
 import React, { useState } from "react"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import InputAdornment from "@material-ui/core/InputAdornment"
+import Button from "@material-ui/core/Button"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
 import clsx from "clsx"
-import {
-  Typography,
-  Grid,
-  Button,
-  TextField,
-  InputAdornment,
-  useMediaQuery,
-} from "@material-ui/core"
-
-import validate from "../components/ui/validate"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
-import Layout from "../components/ui/layout"
+import { Link } from "gatsby"
+
 import address from "../images/address.svg"
 import Email from "../images/EmailAdornment"
 import send from "../images/send.svg"
 import nameAdornment from "../images/name-adornment.svg"
-import PhoneAdornment from "../images/phoneAdornment"
+import PhoneAdornment from "../images/PhoneAdornment"
+
+import Layout from "../components/ui/layout"
+import validate from "../components/ui/validate"
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
       height: "50%",
       marginTop: "-8rem",
     },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
   blockContainer: {
     backgroundColor: theme.palette.secondary.main,
@@ -48,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       width: "30rem",
     },
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
   titleContainer: {
     marginTop: "-4rem",
@@ -55,7 +61,7 @@ const useStyles = makeStyles(theme => ({
   buttonContainer: {
     marginBottom: "-4rem",
     textTransform: "none",
-    borderRadius: "0",
+    borderRadius: 0,
     "&:hover": {
       backgroundColor: theme.palette.secondary.light,
     },
@@ -76,22 +82,32 @@ const useStyles = makeStyles(theme => ({
     width: "3rem",
   },
   infoContainer: {
-    height: "21.3rem",
+    height: "21.25rem",
+    [theme.breakpoints.down("xs")]: {
+      height: "15.25rem",
+    },
   },
   middleInfo: {
     borderTop: "2px solid #fff",
     borderBottom: "2px solid #fff",
   },
-  iconContaner: {
+  iconContainer: {
     borderRight: "2px solid #fff",
     height: "7rem",
     width: "8rem",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down("xs")]: {
+      height: "5rem",
+      width: "6rem",
+    },
   },
   textField: {
     width: "30rem",
+    [theme.breakpoints.down("sm")]: {
+      width: "20rem",
+    },
   },
   input: {
     color: "#fff",
@@ -119,8 +135,13 @@ const useStyles = makeStyles(theme => ({
   multilineError: {
     border: `2px solid ${theme.palette.error.main}`,
   },
-  buttonDisable: {
+  buttonDisabled: {
     backgroundColor: theme.palette.grey[500],
+  },
+  sendMessage: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "2.5rem",
+    },
   },
   "@global": {
     ".MuiInput-underline:before, .MuiInput-underline:hover:not(.Mui-disabled):before":
@@ -134,14 +155,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ContactPage = () => {
-  const theme = useTheme()
   const classes = useStyles()
-  const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
+  const theme = useTheme()
+
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+  const matchesXS = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
   const [message, setMessage] = useState("")
-  const [phone, setPhone] = useState("")
   const [errors, setErrors] = useState({})
 
   return (
@@ -151,15 +174,16 @@ const ContactPage = () => {
         justifyContent="space-around"
         alignItems="center"
         classes={{ root: classes.mainContainer }}
-        direction={matchesMd ? "column" : "row"}
+        direction={matchesMD ? "column" : "row"}
       >
+        {/* Contact Form */}
         <Grid item classes={{ root: classes.formWrapper }}>
           <Grid
             container
             classes={{ root: classes.formContainer }}
             direction="column"
-            alignItems="center"
             justifyContent="space-between"
+            alignItems="center"
           >
             <Grid
               item
@@ -173,8 +197,23 @@ const ContactPage = () => {
               <Grid container direction="column">
                 <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
-                    placeholder="Name"
                     value={name}
+                    onChange={e => {
+                      if (errors.name) {
+                        const valid = validate({ name: e.target.value })
+                        setErrors({ ...errors, name: !valid.name })
+                      }
+
+                      setName(e.target.value)
+                    }}
+                    onBlur={e => {
+                      const valid = validate({ name })
+                      setErrors({ ...errors, name: !valid.name })
+                    }}
+                    error={errors.name}
+                    helperText={errors.name && "you must enter a name"}
+                    placeholder="Name"
+                    classes={{ root: classes.textField }}
                     InputProps={{
                       classes: { input: classes.input },
                       startAdornment: (
@@ -183,28 +222,31 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
-                    onBlur={e => {
-                      const valid = validate({ name })
-                      setErrors({ ...errors, name: !valid.name })
-                    }}
-                    error={errors.name}
-                    helperText={errors.name && "Name is required"}
-                    onChange={e => {
-                      if (errors.name) {
-                        const valid = validate({ name: e.target.value })
-                        setErrors({ ...errors, name: !valid.name })
-                      }
-                      setName(e.target.value)
-                    }}
-                    classes={{ root: classes.textField }}
                   />
                 </Grid>
                 <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
-                    placeholder="Email"
                     value={email}
+                    onChange={e => {
+                      if (errors.email) {
+                        const valid = validate({ email: e.target.value })
+                        setErrors({ ...errors, email: !valid.email })
+                      }
+
+                      setEmail(e.target.value)
+                    }}
+                    onBlur={e => {
+                      const valid = validate({ email })
+                      setErrors({ ...errors, email: !valid.email })
+                    }}
+                    error={errors.email}
+                    helperText={errors.email && "invalid email"}
+                    placeholder="Email"
+                    classes={{ root: classes.textField }}
                     InputProps={{
-                      classes: { input: classes.input },
+                      classes: {
+                        input: classes.input,
+                      },
                       startAdornment: (
                         <InputAdornment position="start">
                           <div className={classes.emailAdornment}>
@@ -213,28 +255,31 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
-                    onBlur={e => {
-                      const valid = validate({ email })
-                      setErrors({ ...errors, email: !valid.email })
-                    }}
-                    error={errors.email}
-                    helperText={errors.email && "Email is required"}
-                    onChange={e => {
-                      if (errors.email) {
-                        const valid = validate({ email: e.target.value })
-                        setErrors({ ...errors, email: !valid.email })
-                      }
-                      setEmail(e.target.value)
-                    }}
-                    classes={{ root: classes.textField }}
                   />
                 </Grid>
                 <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
-                    placeholder="Phone"
-                    value={phone}
+                    value={phoneNumber}
+                    onChange={e => {
+                      if (errors.phone) {
+                        const valid = validate({ phone: e.target.value })
+                        setErrors({ ...errors, phone: !valid.phone })
+                      }
+
+                      setPhoneNumber(e.target.value)
+                    }}
+                    onBlur={e => {
+                      const valid = validate({ phone: phoneNumber })
+                      setErrors({ ...errors, phone: !valid.phone })
+                    }}
+                    error={errors.phone}
+                    helperText={errors.phone && "invalid phone number"}
+                    placeholder="Phone Number"
+                    classes={{ root: classes.textField }}
                     InputProps={{
-                      classes: { input: classes.input },
+                      classes: {
+                        input: classes.input,
+                      },
                       startAdornment: (
                         <InputAdornment position="start">
                           <div className={classes.phoneAdornment}>
@@ -245,28 +290,29 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
-                    onBlur={e => {
-                      const valid = validate({ phone })
-                      setErrors({ ...errors, phone: !valid.phone })
-                    }}
-                    error={errors.phone}
-                    helperText={errors.phone && "Phone is required"}
-                    onChange={e => {
-                      if (errors.phone) {
-                        const valid = validate({ phone: e.target.value })
-                        setErrors({ ...errors, phone: !valid.phone })
-                      }
-                      setPhone(e.target.value)
-                    }}
-                    classes={{ root: classes.textField }}
                   />
                 </Grid>
                 <Grid item classes={{ root: classes.multilineContainer }}>
                   <TextField
                     placeholder="Message"
                     multiline
-                    rows={8}
                     value={message}
+                    onChange={e => {
+                      if (errors.message) {
+                        const valid = validate({ message: e.target.value })
+                        setErrors({ ...errors, message: !valid.message })
+                      }
+
+                      setMessage(e.target.value)
+                    }}
+                    onBlur={e => {
+                      const valid = validate({ message })
+                      setErrors({ ...errors, message: !valid.message })
+                    }}
+                    error={errors.message}
+                    helperText={errors.message && "you must enter a message"}
+                    rows={8}
+                    classes={{ root: classes.textField }}
                     InputProps={{
                       disableUnderline: true,
                       classes: {
@@ -275,20 +321,6 @@ const ContactPage = () => {
                         error: classes.multilineError,
                       },
                     }}
-                    onBlur={e => {
-                      const valid = validate({ message })
-                      setErrors({ ...errors, message: !valid.message })
-                    }}
-                    error={errors.message}
-                    helperText={errors.message && "Message is required"}
-                    onChange={e => {
-                      if (errors.message) {
-                        const valid = validate({ message: e.target.value })
-                        setErrors({ ...errors, message: !valid.message })
-                      }
-                      setMessage(e.target.value)
-                    }}
-                    classes={{ root: classes.textField }}
                   />
                 </Grid>
               </Grid>
@@ -302,17 +334,21 @@ const ContactPage = () => {
               }
               classes={{
                 root: clsx(classes.buttonContainer, classes.blockContainer, {
-                  [classes.buttonDisable]:
+                  [classes.buttonDisabled]:
                     Object.keys(errors).some(error => errors[error] === true) ||
                     Object.keys(errors).length !== 4,
                 }),
               }}
             >
-              <Typography variant="h4">send message</Typography>
-              <img src={send} alt="send" className={classes.sendIcon} />
+              <Typography variant="h4" classes={{ root: classes.sendMessage }}>
+                send message
+              </Typography>
+              <img src={send} className={classes.sendIcon} alt="send message" />
             </Grid>
           </Grid>
         </Grid>
+
+        {/* Contact Info */}
         <Grid item>
           <Grid
             container
@@ -321,11 +357,11 @@ const ContactPage = () => {
             classes={{ root: classes.infoContainer }}
           >
             <Grid item container alignItems="center">
-              <Grid item classes={{ root: classes.iconContaner }}>
+              <Grid item classes={{ root: classes.iconContainer }}>
                 <img
+                  className={classes.contactIcon}
                   src={address}
                   alt="address"
-                  className={classes.contactIcon}
                 />
               </Grid>
               <Grid item>
@@ -333,7 +369,7 @@ const ContactPage = () => {
                   variant="h2"
                   classes={{ root: classes.contactInfo }}
                 >
-                  1234 S Example St Wichita KS 67001
+                  1234 S Example St {matchesXS ? <br /> : null}Wichita, KS 67111
                 </Typography>
               </Grid>
             </Grid>
@@ -343,32 +379,32 @@ const ContactPage = () => {
               alignItems="center"
               classes={{ root: classes.middleInfo }}
             >
-              <Grid item classes={{ root: classes.iconContaner }}>
+              <Grid item classes={{ root: classes.iconContainer }}>
                 <div className={classes.contactIcon}>
                   <PhoneAdornment />
                 </div>
               </Grid>
               <Grid item>
                 <Typography
-                  variant="h2"
                   classes={{ root: classes.contactInfo }}
+                  variant="h2"
                 >
-                  (123) 456-7890
+                  (555) 555-5555
                 </Typography>
               </Grid>
             </Grid>
             <Grid item container alignItems="center">
-              <Grid item classes={{ root: classes.iconContaner }}>
+              <Grid item classes={{ root: classes.iconContainer }}>
                 <div className={classes.contactEmailIcon}>
                   <Email color="#fff" />
                 </div>
               </Grid>
               <Grid item>
                 <Typography
-                  variant="h2"
                   classes={{ root: classes.contactInfo }}
+                  variant="h2"
                 >
-                  contact@var-x.com.mx
+                  zachary@var-x.com
                 </Typography>
               </Grid>
             </Grid>

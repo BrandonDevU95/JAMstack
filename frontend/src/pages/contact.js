@@ -7,6 +7,7 @@ import {
   TextField,
   InputAdornment,
 } from "@material-ui/core"
+import validate from "../components/ui/validate"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import Layout from "../components/ui/layout"
 import address from "../images/address.svg"
@@ -17,7 +18,7 @@ import PhoneAdornment from "../images/phoneAdornment"
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
-    height: "40rem",
+    height: "45rem",
     backgroundColor: theme.palette.primary.main,
     marginBottom: "10rem",
   },
@@ -114,12 +115,15 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ContactPage = () => {
-  const classes = useStyles()
   const theme = useTheme()
+  const classes = useStyles()
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
   const [phone, setPhone] = useState("")
+  const [errors, setErrors] = useState({})
+
   return (
     <Layout>
       <Grid
@@ -158,13 +162,19 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
+                    onBlur={e => {
+                      const valid = validate({ name })
+                      setErrors({ ...errors, name: !valid.name })
+                    }}
+                    error={errors.name}
+                    helperText={errors.name && "Name is required"}
                     onChange={e => setName(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
                 <Grid item classes={{ root: classes.fieldContainer }}>
                   <TextField
-                    placeholder="Emial"
+                    placeholder="Email"
                     value={email}
                     InputProps={{
                       classes: { input: classes.input },
@@ -176,6 +186,12 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
+                    onBlur={e => {
+                      const valid = validate({ email })
+                      setErrors({ ...errors, email: !valid.email })
+                    }}
+                    error={errors.email}
+                    helperText={errors.email && "Email is required"}
                     onChange={e => setEmail(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
@@ -196,6 +212,12 @@ const ContactPage = () => {
                         </InputAdornment>
                       ),
                     }}
+                    onBlur={e => {
+                      const valid = validate({ phone })
+                      setErrors({ ...errors, phone: !valid.phone })
+                    }}
+                    error={errors.phone}
+                    helperText={errors.phone && "Phone is required"}
                     onChange={e => setPhone(e.target.value)}
                     classes={{ root: classes.textField }}
                   />
@@ -210,6 +232,12 @@ const ContactPage = () => {
                       disableUnderline: true,
                       classes: { input: classes.input },
                     }}
+                    onBlur={e => {
+                      const valid = validate({ message })
+                      setErrors({ ...errors, message: !valid.message })
+                    }}
+                    error={errors.message}
+                    helperText={errors.message && "Message is required"}
                     onChange={e => setMessage(e.target.value)}
                     classes={{ root: classes.textField }}
                   />

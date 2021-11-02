@@ -98,6 +98,17 @@ const useStyles = makeStyles(theme => ({
     width: 25.173,
     height: 25.122,
   },
+  multiline: {
+    border: "2px solid #fff",
+    borderRadius: 10,
+    padding: "1rem",
+  },
+  multilineError: {
+    border: `2px solid ${theme.palette.error.main}`,
+  },
+  buttonDisable: {
+    backgroundColor: theme.palette.grey[500],
+  },
   "@global": {
     ".MuiInput-underline:before, .MuiInput-underline:hover:not(.Mui-disabled):before":
       {
@@ -105,11 +116,6 @@ const useStyles = makeStyles(theme => ({
       },
     ".MuiInput-underline:after": {
       borderBottom: `2px solid ${theme.palette.secondary.main}`,
-    },
-    ".MuiInput-multiline": {
-      border: "2px solid #fff",
-      borderRadius: 10,
-      padding: "1rem",
     },
   },
 }))
@@ -168,7 +174,13 @@ const ContactPage = () => {
                     }}
                     error={errors.name}
                     helperText={errors.name && "Name is required"}
-                    onChange={e => setName(e.target.value)}
+                    onChange={e => {
+                      if (errors.name) {
+                        const valid = validate({ name: e.target.value })
+                        setErrors({ ...errors, name: !valid.name })
+                      }
+                      setName(e.target.value)
+                    }}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
@@ -192,7 +204,13 @@ const ContactPage = () => {
                     }}
                     error={errors.email}
                     helperText={errors.email && "Email is required"}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={e => {
+                      if (errors.email) {
+                        const valid = validate({ email: e.target.value })
+                        setErrors({ ...errors, email: !valid.email })
+                      }
+                      setEmail(e.target.value)
+                    }}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
@@ -218,7 +236,13 @@ const ContactPage = () => {
                     }}
                     error={errors.phone}
                     helperText={errors.phone && "Phone is required"}
-                    onChange={e => setPhone(e.target.value)}
+                    onChange={e => {
+                      if (errors.phone) {
+                        const valid = validate({ phone: e.target.value })
+                        setErrors({ ...errors, phone: !valid.phone })
+                      }
+                      setPhone(e.target.value)
+                    }}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
@@ -230,7 +254,11 @@ const ContactPage = () => {
                     value={message}
                     InputProps={{
                       disableUnderline: true,
-                      classes: { input: classes.input },
+                      classes: {
+                        input: classes.input,
+                        multiline: classes.multiline,
+                        error: classes.multilineError,
+                      },
                     }}
                     onBlur={e => {
                       const valid = validate({ message })
@@ -238,7 +266,13 @@ const ContactPage = () => {
                     }}
                     error={errors.message}
                     helperText={errors.message && "Message is required"}
-                    onChange={e => setMessage(e.target.value)}
+                    onChange={e => {
+                      if (errors.message) {
+                        const valid = validate({ message: e.target.value })
+                        setErrors({ ...errors, message: !valid.message })
+                      }
+                      setMessage(e.target.value)
+                    }}
                     classes={{ root: classes.textField }}
                   />
                 </Grid>
@@ -247,8 +281,16 @@ const ContactPage = () => {
             <Grid
               item
               component={Button}
+              disabled={
+                Object.keys(errors).some(error => errors[error] === true) ||
+                Object.keys(errors).length !== 4
+              }
               classes={{
-                root: clsx(classes.buttonContainer, classes.blockContainer),
+                root: clsx(classes.buttonContainer, classes.blockContainer, {
+                  [classes.buttonDisable]:
+                    Object.keys(errors).some(error => errors[error] === true) ||
+                    Object.keys(errors).length !== 4,
+                }),
               }}
             >
               <Typography variant="h4">send message</Typography>

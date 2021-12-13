@@ -22,13 +22,25 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     fontWeight: 500,
   },
+  mainContainer: {
+    padding: "1rem 0",
+  },
+  checkbox: {
+    color: "#fff",
+  },
 }))
 
 export default function Filter({ setOption, filterOptions }) {
   const classes = useStyles()
 
   return (
-    <Grid item container justifyContent="space-between" alignItems="center">
+    <Grid
+      item
+      container
+      justifyContent="space-between"
+      alignItems="center"
+      classes={{ root: classes.mainContainer }}
+    >
       <Grid item>
         <IconButton onClick={() => setOption(null)}>
           <img src={filter} alt="filter" />
@@ -56,9 +68,14 @@ export default function Filter({ setOption, filterOptions }) {
                         {filterOptions[opcion].map(({ label, checked }) => (
                           <FormControlLabel
                             key={label}
+                            classes={{ label: classes.checkbox }}
                             label={label}
                             control={
-                              <Checkbox checked={checked} name={label} />
+                              <Checkbox
+                                checked={checked}
+                                name={label}
+                                classes={{ root: classes.checkbox }}
+                              />
                             }
                           />
                         ))}

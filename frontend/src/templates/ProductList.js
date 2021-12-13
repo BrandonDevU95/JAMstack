@@ -7,7 +7,7 @@ export default function ProductList({ pageContext }) {
   return (
     <Layout>
       <Grid container direction="column" alignItems="center">
-        <DynamicToobar />
+        <DynamicToobar filterOptions={pageContext.filterOptions} />
       </Grid>
     </Layout>
   )

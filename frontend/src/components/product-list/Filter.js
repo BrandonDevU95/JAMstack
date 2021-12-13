@@ -1,5 +1,14 @@
 import React from "react"
-import { Grid, Typography, IconButton, Chip } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  IconButton,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Checkbox,
+} from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import filter from "../../images/filter.svg"
 import close from "../../images/close-outline.svg"
@@ -27,14 +36,38 @@ export default function Filter({ setOption, filterOptions }) {
       </Grid>
       <Grid item xs>
         <Grid container justifyContent="space-around">
-          {/* {sortOption.map(opcion => (
-            <Grid item key={opcion.label}>
-              <Chip
-                label={opcion.label}
-                classes={{ root: classes.chipRoot, label: classes.chipLabel }}
-              />
-            </Grid>
-          ))} */}
+          {Object.keys(filterOptions)
+            .filter(option => filterOptions[option] !== null)
+            .map(opcion => (
+              <Grid item key={opcion}>
+                <Grid container direction="column">
+                  <Grid item>
+                    <Chip
+                      label={opcion}
+                      classes={{
+                        root: classes.chipRoot,
+                        label: classes.chipLabel,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <FormControl>
+                      <FormGroup>
+                        {filterOptions[opcion].map(({ label, checked }) => (
+                          <FormControlLabel
+                            key={label}
+                            label={label}
+                            control={
+                              <Checkbox checked={checked} name={label} />
+                            }
+                          />
+                        ))}
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
         </Grid>
       </Grid>
       <Grid item>

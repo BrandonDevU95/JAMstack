@@ -15,9 +15,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function DynamicToobar({ filterOptions, name, description }) {
   const classes = useStyles()
+  const [option, setOption] = useState(null)
+
   return (
     <Grid item container direction="column" classes={{ root: classes.toolbar }}>
-      <FunctionContainer filterOptions={filterOptions} />
+      <FunctionContainer
+        filterOptions={filterOptions}
+        option={option}
+        setOption={setOption}
+      />
       <DescriptionContainer name={name} description={description} />
     </Grid>
   )

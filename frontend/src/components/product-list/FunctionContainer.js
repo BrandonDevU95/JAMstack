@@ -14,9 +14,12 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function FunctionContainer({ filterOptions }) {
+export default function FunctionContainer({
+  filterOptions,
+  option,
+  setOption,
+}) {
   const classes = useStyles()
-  const [option, setOption] = useState(null)
 
   const content = () => {
     switch (option) {

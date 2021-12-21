@@ -1,5 +1,5 @@
-import React from "react"
-import { Grid, Typography } from "@material-ui/core"
+import React, { useState } from "react"
+import { Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 import FunctionContainer from "./FunctionContainer"
 import DescriptionContainer from "./DescriptionContainer"
@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 25,
     width: "95%",
     height: "auto",
+    marginBottom: "5rem",
   },
 }))
 
@@ -24,7 +25,9 @@ export default function DynamicToobar({ filterOptions, name, description }) {
         option={option}
         setOption={setOption}
       />
-      <DescriptionContainer name={name} description={description} />
+      {option === null && (
+        <DescriptionContainer name={name} description={description} />
+      )}
     </Grid>
   )
 }

@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { Grid, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import QuickView from "./QuickView"
 import frame from "../../images/product-frame-grid.svg"
 
 const useStyles = makeStyles(theme => ({
@@ -32,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ProductFrameGrid({ product, variant }) {
   const classes = useStyles()
+  const [open, setOpen] = useState(false)
 
   return (
     <Grid item>
@@ -49,6 +51,7 @@ export default function ProductFrameGrid({ product, variant }) {
           </Typography>
         </Grid>
       </Grid>
+      <QuickView open={open} setOpen={setOpen} />
     </Grid>
   )
 }

@@ -74,9 +74,7 @@ export default function QuickView({
 }) {
   const classes = useStyles()
   let sizes = []
-  product.node.variants.map(variant => {
-    sizes.push(variant.size)
-  })
+  product.node.variants.map(variant => sizes.push(variant.size))
 
   return (
     <Dialog
@@ -93,7 +91,12 @@ export default function QuickView({
               className={classes.productImage}
             />
           </Grid>
-          <Grid item container classes={{ root: classes.toolBar }}>
+          <Grid
+            item
+            container
+            justifyContent="space-between"
+            classes={{ root: classes.toolBar }}
+          >
             <Grid item>
               <Grid
                 container

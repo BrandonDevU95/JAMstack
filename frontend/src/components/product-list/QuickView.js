@@ -11,6 +11,7 @@ import Rating from "../home/Rating"
 import { makeStyles } from "@material-ui/core/styles"
 import frame from "../../images/selected-frame.svg"
 import explore from "../../images/explore.svg"
+import Sizes from "./Sizes"
 
 const useStyles = makeStyles(theme => ({
   selectedFrame: {
@@ -63,8 +64,19 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function QuickView({ open, setOpen, url, name, price }) {
+export default function QuickView({
+  open,
+  setOpen,
+  url,
+  name,
+  price,
+  product,
+}) {
   const classes = useStyles()
+  let sizes = []
+  product.node.variants.map(variant => {
+    sizes.push(variant.size)
+  })
 
   return (
     <Dialog
@@ -115,6 +127,13 @@ export default function QuickView({ open, setOpen, url, name, price }) {
             </Grid>
             <Grid item classes={{ root: classes.chipContainer }}>
               <Chip label={`$${price}`} classes={{ root: classes.chipRoot }} />
+            </Grid>
+            <Grid item>
+              <Grid container direction="column">
+                <Grid item>
+                  <Sizes sizes={sizes} />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

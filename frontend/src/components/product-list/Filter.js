@@ -14,14 +14,6 @@ import filter from "../../images/filter.svg"
 import close from "../../images/close-outline.svg"
 
 const useStyles = makeStyles(theme => ({
-  chipRoot: {
-    backgroundColor: theme.palette.secondary.main,
-  },
-  chipLabel: {
-    ...theme.typography.body1,
-    color: "#fff",
-    fontWeight: 500,
-  },
   mainContainer: {
     padding: "1rem 0",
   },
@@ -54,13 +46,7 @@ export default function Filter({ setOption, filterOptions }) {
               <Grid item key={opcion}>
                 <Grid container direction="column">
                   <Grid item>
-                    <Chip
-                      label={opcion}
-                      classes={{
-                        root: classes.chipRoot,
-                        label: classes.chipLabel,
-                      }}
-                    />
+                    <Chip label={opcion} />
                   </Grid>
                   <Grid item>
                     <FormControl>

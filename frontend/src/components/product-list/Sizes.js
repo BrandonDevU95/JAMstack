@@ -1,4 +1,5 @@
 import React from "react"
+import clsx from "clsx"
 import { Grid, Typography, Button } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -13,9 +14,15 @@ const useStyles = makeStyles(theme => ({
     width: "3rem",
     minWidth: 0,
   },
+  selected: {
+    backgroundColor: theme.palette.secondary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+    },
+  },
 }))
 
-export default function Sizes({ sizes }) {
+export default function Sizes({ sizes, selectedSize, setSelectedSize }) {
   const classes = useStyles()
   const possibleSizes = ["S", "M", "L"]
   let actualSizes = []
@@ -28,7 +35,14 @@ export default function Sizes({ sizes }) {
     <Grid item container justifyContent="space-between">
       {actualSizes.map(size => (
         <Grid item key={size}>
-          <Button classes={{ root: classes.button }}>
+          <Button
+            onClick={() => setSelectedSize(size)}
+            classes={{
+              root: clsx(classes.button, {
+                [classes.selected]: selectedSize === size,
+              }),
+            }}
+          >
             <Typography variant="h3" classes={{ root: classes.size }}>
               {size}
             </Typography>
